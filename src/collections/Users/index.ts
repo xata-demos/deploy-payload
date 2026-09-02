@@ -12,10 +12,16 @@ export const Users: CollectionConfig = {
     update: authenticated,
   },
   admin: {
-    defaultColumns: ['name', 'email'],
-    useAsTitle: 'name',
+    defaultColumns: ['username', 'name', 'email'],
+    useAsTitle: 'username',
   },
-  auth: true,
+  auth: {
+    loginWithUsername: {
+      allowEmailLogin: false,
+      requireEmail: false,
+      requireUsername: true,
+    }
+  },
   fields: [
     {
       name: 'name',
