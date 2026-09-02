@@ -27,6 +27,17 @@ export const Users: CollectionConfig = {
       name: 'name',
       type: 'text',
     },
+    {
+      // Payload hides its built-in email input for username-only authentication.
+      // Override the hidden field component so email remains an optional profile field.
+      name: 'email',
+      type: 'email',
+      admin: {
+        components: {
+          Field: '@payloadcms/ui#EmailField',
+        },
+      },
+    },
   ],
   timestamps: true,
 }
