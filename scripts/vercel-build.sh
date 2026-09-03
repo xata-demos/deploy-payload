@@ -45,15 +45,6 @@ if [[ "${VERCEL_ENV:-}" == "preview" ]]; then
     sleep "$branch_wait_retry_delay"
   done
 
-  preview_database_url="$(
-    xata branch url "$preview_branch" --type primary
-  )"
-
-  export DATABASE_URL="$preview_database_url"
-
-  # Makes the dynamically resolved value available to the built Next.js app.
-  umask 077
-  printf 'DATABASE_URL=%s\n' "$DATABASE_URL" >> .env.production
 fi
 
 # Applies migrations to either the PR database or production main database.
