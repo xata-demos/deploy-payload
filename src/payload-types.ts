@@ -197,6 +197,9 @@ export interface Page {
           id?: string | null;
         }[]
       | null;
+    /**
+     * Optional. A designed fallback is shown when no media is selected.
+     */
     media?: (number | null) | Media;
   };
   layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock)[];
