@@ -7,7 +7,6 @@ import configPromise from '@payload-config'
 import { ArrowDown, ArrowUpRight, Asterisk, CircleDot } from 'lucide-react'
 import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
-import { notFound } from 'next/navigation'
 import { cache } from 'react'
 
 import { ContactHeaderTheme } from './ContactHeaderTheme'
@@ -24,8 +23,7 @@ export const metadata: Metadata = {
 export default async function ContactPage() {
   const page = await queryContactPage()
   const form = getForm(page)
-
-  if (!page) notFound()
+  const contentBlocks = page?.layout?.filter((block) => block.blockType !== 'formBlock') || []
 
   return (
     <main className={styles.page}>
@@ -108,7 +106,7 @@ export default async function ContactPage() {
 
         <div className={styles.formCard}>
           <div className={styles.formCardHeader}>
-            <span>{form ? 'New message' : 'Contact details'}</span>
+            <span>{form ? 'New message' : 'Open channel'}</span>
             <span className={styles.formCardMark}>
               PX
               <ArrowUpRight aria-hidden="true" />
@@ -128,7 +126,18 @@ export default async function ContactPage() {
             </>
           ) : (
             <div className={styles.cmsContent}>
-              <RenderBlocks blocks={page.layout} />
+              {contentBlocks.length > 0 ? (
+                <RenderBlocks blocks={contentBlocks} />
+              ) : (
+                <div className={styles.contactFallback}>
+                  <p>No form. No hoops.</p>
+                  <h3>Your next move can start with two honest sentences.</h3>
+                  <a href="mailto:">
+                    Compose an email
+                    <ArrowUpRight aria-hidden="true" />
+                  </a>
+                </div>
+              )}
             </div>
           )}
         </div>
