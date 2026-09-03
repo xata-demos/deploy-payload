@@ -45,6 +45,10 @@ if [[ "${VERCEL_ENV:-}" == "preview" ]]; then
     sleep "$branch_wait_retry_delay"
   done
 
+  preview_database="${XATA_DATABASE_NAME:-payload}"
+  export DATABASE_URL="$(
+    xata branch url "$preview_branch" --database "$preview_database" --type primary
+  )"
 fi
 
 # Applies migrations to either the PR database or production main database.
