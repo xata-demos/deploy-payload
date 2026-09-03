@@ -1,10 +1,11 @@
 import type { Metadata } from 'next'
 import type { Page } from '@/payload-types'
 
-import { FormBlock, type FormBlockType } from '@/blocks/Form/Component'
 import { RenderBlocks } from '@/blocks/RenderBlocks'
+import { RenderHero } from '@/heros/RenderHero'
+import { generateMeta } from '@/utilities/generateMeta'
 import configPromise from '@payload-config'
-import { ArrowDown, ArrowUpRight, Asterisk, CircleDot } from 'lucide-react'
+import { ArrowDown, ArrowUpRight, Asterisk } from 'lucide-react'
 import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
 import { cache } from 'react'
@@ -12,18 +13,12 @@ import { cache } from 'react'
 import { ContactHeaderTheme } from './ContactHeaderTheme'
 import styles from './page.module.css'
 
-export const metadata: Metadata = {
-  title: 'Contact | Payload Website Template',
-  description: 'Start a conversation about your next idea, build, or collaboration.',
-  alternates: {
-    canonical: '/contact-us',
-  },
-}
-
 export default async function ContactPage() {
   const page = await queryContactPage()
-  const form = getForm(page)
-  const contentBlocks = page?.layout?.filter((block) => block.blockType !== 'formBlock') || []
+  const title = page?.title || 'Contact us'
+  const description =
+    page?.meta?.description ||
+    'Bring the half-formed thought, the ambitious brief, or the problem that refuses to sit still.'
 
   return (
     <main className={styles.page}>
@@ -39,18 +34,13 @@ export default async function ContactPage() {
           </p>
 
           <h1 className={styles.title}>
-            Let&apos;s make
-            <span>something</span>
-            worth talking about.
+            <ContactTitle title={title} />
           </h1>
 
           <div className={styles.heroFooter}>
-            <p>
-              Bring the half-formed thought, the ambitious brief, or the problem that refuses to sit
-              still.
-            </p>
+            <p>{description}</p>
             <a className={styles.jumpLink} href="#contact-form">
-              Open the line
+              Read the page
               <ArrowDown aria-hidden="true" />
             </a>
           </div>
@@ -70,74 +60,42 @@ export default async function ContactPage() {
 
       <section className={styles.formSection} id="contact-form">
         <div className={styles.formIntro}>
-          <p className={styles.sectionNumber}>01 / Your message</p>
+          <p className={styles.sectionNumber}>01 / The details</p>
           <h2>
-            Tell us where
-            <span>you want to go.</span>
+            Everything
+            <span>you want to say.</span>
           </h2>
-          <p className={styles.formLead}>
-            No polished pitch required. A few honest details are more useful than a perfect deck.
-          </p>
-
-          <ol className={styles.process}>
-            <li>
-              <CircleDot aria-hidden="true" />
-              <span>
-                <strong>Send the signal</strong>
-                Give us the shape of what you&apos;re thinking.
-              </span>
-            </li>
-            <li>
-              <CircleDot aria-hidden="true" />
-              <span>
-                <strong>We connect the dots</strong>
-                We&apos;ll read every word and find the right next step.
-              </span>
-            </li>
-            <li>
-              <CircleDot aria-hidden="true" />
-              <span>
-                <strong>Make it real</strong>
-                If there&apos;s a spark, we&apos;ll turn it into momentum.
-              </span>
-            </li>
-          </ol>
+          <p className={styles.formLead}>{description}</p>
         </div>
 
         <div className={styles.formCard}>
           <div className={styles.formCardHeader}>
-            <span>{form ? 'New message' : 'Open channel'}</span>
+            <span>{page ? page.title : 'Open channel'}</span>
             <span className={styles.formCardMark}>
               PX
               <ArrowUpRight aria-hidden="true" />
             </span>
           </div>
 
-          {form ? (
+          {page ? (
             <>
-              <FormBlock
-                enableIntro={false}
-                form={{ ...form, submitButtonLabel: 'Send the signal' }}
-              />
-              <p className={styles.formNote}>
-                <Asterisk aria-hidden="true" />
-                Required fields help your message find the right place.
-              </p>
+              <div className={styles.cmsHero}>
+                <RenderHero {...page.hero} />
+              </div>
+              <div className={styles.cmsContent}>
+                <RenderBlocks blocks={page.layout} />
+              </div>
             </>
           ) : (
             <div className={styles.cmsContent}>
-              {contentBlocks.length > 0 ? (
-                <RenderBlocks blocks={contentBlocks} />
-              ) : (
-                <div className={styles.contactFallback}>
-                  <p>No form. No hoops.</p>
-                  <h3>Your next move can start with two honest sentences.</h3>
-                  <a href="mailto:">
-                    Compose an email
-                    <ArrowUpRight aria-hidden="true" />
-                  </a>
-                </div>
-              )}
+              <div className={styles.contactFallback}>
+                <p>No form. No hoops.</p>
+                <h3>Your next move can start with two honest sentences.</h3>
+                <a href="mailto:">
+                  Compose an email
+                  <ArrowUpRight aria-hidden="true" />
+                </a>
+              </div>
             </div>
           )}
         </div>
@@ -154,20 +112,28 @@ export default async function ContactPage() {
   )
 }
 
-function getForm(page: Page | null): FormBlockType['form'] | null {
-  const formBlock = page?.layout?.find((block) => block.blockType === 'formBlock')
+function ContactTitle({ title }: { title: string }) {
+  const words = title.trim().split(/\s+/)
+  const accent = words.pop()
 
-  if (!formBlock || typeof formBlock.form !== 'object') return null
+  return (
+    <>
+      {words.length > 0 && `${words.join(' ')} `}
+      <span>{accent}</span>
+    </>
+  )
+}
 
-  const form = formBlock.form
-
-  if (!form.confirmationType) return null
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await queryContactPage()
+  const metadata = await generateMeta({ doc: page })
 
   return {
-    ...form,
-    confirmationType: form.confirmationType,
-    id: String(form.id),
-  } as FormBlockType['form']
+    ...metadata,
+    alternates: {
+      canonical: '/contact-us',
+    },
+  }
 }
 
 const queryContactPage = cache(async (): Promise<Page | null> => {

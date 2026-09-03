@@ -428,6 +428,16 @@
   margin-block: 0;
 }
 
+.cmsHero:empty {
+  display: none;
+}
+
+.cmsHero:not(:empty) {
+  border-bottom: 1px solid rgb(11 16 38 / 18%);
+  margin-bottom: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
 .cmsContent :global(.container) {
   max-width: none;
   padding-inline: 0;
