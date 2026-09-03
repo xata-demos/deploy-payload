@@ -5,7 +5,26 @@ export const homeStatic: RequiredDataFromCollectionSlug<'pages'> = {
   slug: 'home',
   _status: 'published',
   hero: {
-    type: 'lowImpact',
+    type: 'highImpact',
+    links: [
+      {
+        link: {
+          type: 'custom',
+          appearance: 'default',
+          label: 'Explore the journal',
+          url: '/posts',
+        },
+      },
+      {
+        link: {
+          type: 'custom',
+          appearance: 'outline',
+          label: 'Open the CMS',
+          url: '/admin',
+        },
+      },
+    ],
+    media: null,
     richText: {
       root: {
         type: 'root',
@@ -33,35 +52,12 @@ export const homeStatic: RequiredDataFromCollectionSlug<'pages'> = {
             type: 'paragraph',
             children: [
               {
-                type: 'link',
-                children: [
-                  {
-                    type: 'text',
-                    detail: 0,
-                    format: 0,
-                    mode: 'normal',
-                    style: '',
-                    text: 'Visit the admin dashboard',
-                    version: 1,
-                  },
-                ],
-                direction: 'ltr',
-                fields: {
-                  linkType: 'custom',
-                  newTab: false,
-                  url: '/admin',
-                },
-                format: '',
-                indent: 0,
-                version: 2,
-              },
-              {
                 type: 'text',
                 detail: 0,
                 format: 0,
                 mode: 'normal',
                 style: '',
-                text: ' to make your account and seed content for your website.',
+                text: 'A flexible publishing space for thoughtful stories, built with Payload and ready to make your own.',
                 version: 1,
               },
             ],

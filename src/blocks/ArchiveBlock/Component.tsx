@@ -4,6 +4,8 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
 import RichText from '@/components/RichText'
+import Link from 'next/link'
+import { ArrowUpRight } from 'lucide-react'
 
 import { CollectionArchive } from '@/components/CollectionArchive'
 
@@ -53,13 +55,30 @@ export const ArchiveBlock: React.FC<
   }
 
   return (
-    <div className="my-16" id={`block-${id}`}>
+    <section className="my-20 md:my-32" id={`block-${id}`}>
       {introContent && (
-        <div className="container mb-16">
-          <RichText className="ms-0 max-w-[48rem]" data={introContent} enableGutter={false} />
+        <div className="container mb-9">
+          <div className="flex items-end justify-between gap-6 border-b border-foreground/15 pb-5">
+            <RichText
+              className="ms-0 max-w-[50rem] [&_h2]:text-3xl [&_h2]:tracking-[-0.04em] [&_h3]:text-3xl [&_h3]:tracking-[-0.04em] [&_p]:mt-3 [&_p]:max-w-2xl [&_p]:text-sm [&_p]:leading-6 [&_p]:text-muted-foreground md:[&_h2]:text-5xl md:[&_h3]:text-5xl"
+              data={introContent}
+              enableGutter={false}
+              enableProse={false}
+            />
+            <Link
+              className="group hidden shrink-0 items-center gap-2 font-mono text-[0.68rem] uppercase tracking-[0.16em] sm:flex"
+              href="/posts"
+            >
+              View the journal
+              <ArrowUpRight
+                aria-hidden
+                className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              />
+            </Link>
+          </div>
         </div>
       )}
       <CollectionArchive posts={posts} />
-    </div>
+    </section>
   )
 }
