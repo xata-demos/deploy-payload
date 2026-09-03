@@ -63,9 +63,9 @@ export const hero: Field = {
       type: 'upload',
       admin: {
         condition: (_, { type } = {}) => ['highImpact', 'mediumImpact'].includes(type),
+        description: 'Optional. A designed fallback is shown when no media is selected.',
       },
       relationTo: 'media',
-      required: true,
     },
   ],
   label: false,

@@ -7,6 +7,7 @@ import RichText from '@/components/RichText'
 import type { MediaBlock as MediaBlockProps } from '@/payload-types'
 
 import { Media } from '../../components/Media'
+import { MediaFallback } from '@/components/MediaFallback'
 
 type Props = MediaBlockProps & {
   breakout?: boolean
@@ -29,8 +30,8 @@ export const MediaBlock: React.FC<Props> = (props) => {
     disableInnerContainer,
   } = props
 
-  let caption
-  if (media && typeof media === 'object') caption = media.caption
+  const hasMedia = media && typeof media === 'object' && Boolean(media.url)
+  const caption = hasMedia && typeof media === 'object' ? media.caption : undefined
 
   return (
     <div
@@ -42,11 +43,18 @@ export const MediaBlock: React.FC<Props> = (props) => {
         className,
       )}
     >
-      {(media || staticImage) && (
+      {hasMedia || staticImage ? (
         <Media
-          imgClassName={cn('border border-border rounded-[0.8rem]', imgClassName)}
+          className="overflow-hidden rounded-[1.5rem]"
+          imgClassName={cn('w-full', imgClassName)}
           resource={media}
           src={staticImage}
+        />
+      ) : (
+        <MediaFallback
+          className="aspect-[16/7] w-full rounded-[1.5rem]"
+          label="Your next image can live here"
+          tone="light"
         />
       )}
       {caption && (
