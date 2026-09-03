@@ -1,0 +1,602 @@
+.page {
+  --contact-blue: #1738ed;
+  --contact-ink: #0b1026;
+  --contact-lime: #dfff58;
+  --contact-paper: #f6f3ea;
+  background: var(--contact-blue);
+  color: #fff;
+  margin-top: -98px;
+  min-height: 100vh;
+  overflow: hidden;
+  padding-top: 98px;
+  position: relative;
+}
+
+.noise {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E");
+  inset: 0;
+  opacity: 0.13;
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+}
+
+.hero,
+.formSection,
+.closing {
+  margin-inline: auto;
+  max-width: 1376px;
+  position: relative;
+  width: calc(100% - 2rem);
+  z-index: 1;
+}
+
+.hero {
+  display: grid;
+  gap: clamp(3rem, 5vw, 6rem);
+  grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.55fr);
+  min-height: calc(100svh - 98px);
+  padding: clamp(4rem, 9vw, 8rem) clamp(0rem, 2vw, 2rem) 4rem;
+}
+
+.heroCopy {
+  align-self: center;
+}
+
+.eyebrow {
+  align-items: center;
+  display: flex;
+  font-family: var(--font-geist-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  gap: 0.65rem;
+  letter-spacing: 0.14em;
+  margin: 0 0 clamp(2rem, 5vw, 4.5rem);
+  text-transform: uppercase;
+}
+
+.statusDot {
+  background: var(--contact-lime);
+  border-radius: 999px;
+  box-shadow: 0 0 0 5px rgb(223 255 88 / 18%);
+  height: 0.5rem;
+  width: 0.5rem;
+}
+
+.title {
+  font-size: clamp(4rem, 9.7vw, 9.2rem);
+  font-weight: 520;
+  letter-spacing: -0.082em;
+  line-height: 0.78;
+  margin: 0;
+  max-width: 9.5ch;
+}
+
+.title span {
+  color: var(--contact-lime);
+  display: block;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 0.92em;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.065em;
+  margin-left: 0.16em;
+}
+
+.heroFooter {
+  align-items: end;
+  display: flex;
+  gap: 2rem;
+  justify-content: space-between;
+  margin-top: clamp(3rem, 6vw, 5rem);
+  max-width: 58rem;
+}
+
+.heroFooter > p {
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  line-height: 1.5;
+  margin: 0;
+  max-width: 34rem;
+}
+
+.jumpLink {
+  align-items: center;
+  border-bottom: 1px solid rgb(255 255 255 / 45%);
+  display: inline-flex;
+  flex: none;
+  font-family: var(--font-geist-mono);
+  font-size: 0.72rem;
+  gap: 0.7rem;
+  letter-spacing: 0.08em;
+  padding-bottom: 0.55rem;
+  text-transform: uppercase;
+  transition:
+    border-color 180ms ease,
+    color 180ms ease;
+}
+
+.jumpLink:hover {
+  border-color: var(--contact-lime);
+  color: var(--contact-lime);
+}
+
+.jumpLink svg {
+  height: 1rem;
+  width: 1rem;
+}
+
+.signal {
+  align-self: center;
+  display: grid;
+  justify-items: center;
+}
+
+.signalOrbit {
+  align-items: center;
+  aspect-ratio: 1;
+  border: 1px solid rgb(255 255 255 / 30%);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  max-width: 26rem;
+  position: relative;
+  width: 100%;
+}
+
+.signalOrbit::before,
+.signalOrbit::after {
+  border: 1px solid rgb(255 255 255 / 16%);
+  border-radius: inherit;
+  content: '';
+  inset: 12%;
+  position: absolute;
+}
+
+.signalOrbit::after {
+  inset: 25%;
+}
+
+.orbitDot {
+  animation: orbit 10s linear infinite;
+  height: 50%;
+  left: calc(50% - 0.45rem);
+  position: absolute;
+  top: 0;
+  transform-origin: 50% 100%;
+  width: 0.9rem;
+}
+
+.orbitDot::before {
+  background: var(--contact-lime);
+  border-radius: 50%;
+  box-shadow: 0 0 22px rgb(223 255 88 / 80%);
+  content: '';
+  height: 0.9rem;
+  left: 0;
+  position: absolute;
+  top: -0.45rem;
+  width: 0.9rem;
+}
+
+.signalCore {
+  align-items: center;
+  aspect-ratio: 1;
+  background: var(--contact-lime);
+  border-radius: 50%;
+  color: var(--contact-ink);
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-geist-mono);
+  font-size: 0.7rem;
+  gap: 0.5rem;
+  justify-content: center;
+  letter-spacing: 0.08em;
+  position: relative;
+  text-transform: uppercase;
+  width: 28%;
+  z-index: 1;
+}
+
+.signalCore svg {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+.signal > p {
+  font-family: var(--font-geist-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  margin: 1.5rem 0 0;
+  opacity: 0.72;
+  text-transform: uppercase;
+}
+
+.formSection {
+  align-items: start;
+  background: var(--contact-paper);
+  color: var(--contact-ink);
+  display: grid;
+  gap: clamp(3rem, 7vw, 8rem);
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  max-width: none;
+  padding: clamp(5rem, 9vw, 9rem) max(1rem, calc((100vw - 1376px) / 2 + 2rem));
+}
+
+.sectionNumber {
+  font-family: var(--font-geist-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  margin: 0 0 clamp(3rem, 6vw, 6rem);
+  text-transform: uppercase;
+}
+
+.formIntro h2 {
+  font-size: clamp(3rem, 5vw, 5.8rem);
+  font-weight: 540;
+  letter-spacing: -0.07em;
+  line-height: 0.9;
+  margin: 0;
+  max-width: 8ch;
+}
+
+.formIntro h2 span {
+  color: var(--contact-blue);
+  display: block;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.formLead {
+  font-size: 1rem;
+  line-height: 1.65;
+  margin: 2rem 0 0;
+  max-width: 31rem;
+}
+
+.process {
+  border-top: 1px solid rgb(11 16 38 / 20%);
+  list-style: none;
+  margin: clamp(3rem, 6vw, 6rem) 0 0;
+  max-width: 31rem;
+  padding: 0;
+}
+
+.process li {
+  align-items: start;
+  border-bottom: 1px solid rgb(11 16 38 / 20%);
+  display: flex;
+  font-size: 0.84rem;
+  gap: 0.9rem;
+  line-height: 1.5;
+  padding: 1.15rem 0;
+}
+
+.process li > svg {
+  color: var(--contact-blue);
+  height: 0.9rem;
+  margin-top: 0.22rem;
+  width: 0.9rem;
+}
+
+.process span {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.process strong {
+  font-size: 0.82rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.formCard {
+  background: #fff;
+  border: 1px solid var(--contact-ink);
+  box-shadow:
+    16px 16px 0 var(--contact-lime),
+    17px 17px 0 var(--contact-ink);
+  padding: clamp(1.25rem, 3.5vw, 3.5rem);
+}
+
+.formCardHeader {
+  align-items: center;
+  border-bottom: 1px solid var(--contact-ink);
+  display: flex;
+  font-family: var(--font-geist-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  justify-content: space-between;
+  letter-spacing: 0.1em;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+.formCardMark {
+  align-items: center;
+  background: var(--contact-ink);
+  color: #fff;
+  display: flex;
+  gap: 0.35rem;
+  padding: 0.38rem 0.48rem;
+}
+
+.formCardMark svg {
+  height: 0.8rem;
+  width: 0.8rem;
+}
+
+.formCard :global(.container) {
+  max-width: none;
+  padding: 0;
+}
+
+.formCard :global(.container > div) {
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+}
+
+.formCard :global(form > div) {
+  display: grid;
+  gap: 1.45rem 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0 0 2rem;
+}
+
+.formCard :global(form > div > div) {
+  margin: 0;
+}
+
+.formCard :global(form > div > div:nth-child(n + 3)) {
+  grid-column: 1 / -1;
+}
+
+.formCard :global(form > div > div > div) {
+  max-width: none !important;
+}
+
+.formCard :global(label) {
+  display: inline-block;
+  font-family: var(--font-geist-mono);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  margin-bottom: 0.7rem;
+  text-transform: uppercase;
+}
+
+.formCard :global(.required) {
+  color: var(--contact-blue);
+}
+
+.formCard :global(input[data-slot='input']),
+.formCard :global(textarea[data-slot='textarea']),
+.formCard :global(button[role='combobox']) {
+  background: #f8f7f2;
+  border: 1px solid rgb(11 16 38 / 36%);
+  border-radius: 0;
+  box-shadow: none;
+  color: var(--contact-ink);
+  min-height: 3.5rem;
+  padding-inline: 1rem;
+}
+
+.formCard :global(textarea[data-slot='textarea']) {
+  min-height: 9.5rem;
+  padding-block: 0.9rem;
+  resize: vertical;
+}
+
+.formCard :global(input[data-slot='input']:focus-visible),
+.formCard :global(textarea[data-slot='textarea']:focus-visible),
+.formCard :global(button[role='combobox']:focus-visible) {
+  background: #fff;
+  border-color: var(--contact-blue);
+  outline: 3px solid rgb(23 56 237 / 14%);
+  outline-offset: 0;
+}
+
+.formCard :global(button[type='submit']) {
+  background: var(--contact-blue);
+  border: 1px solid var(--contact-ink);
+  border-radius: 0;
+  color: #fff;
+  font-family: var(--font-geist-mono);
+  font-size: 0.72rem;
+  height: 3.75rem;
+  justify-content: space-between;
+  letter-spacing: 0.08em;
+  padding-inline: 1.25rem;
+  position: relative;
+  text-transform: uppercase;
+  width: 100%;
+}
+
+.formCard :global(button[type='submit'])::after {
+  content: '\2197';
+  font-size: 1.1rem;
+}
+
+.formCard :global(button[type='submit']:hover) {
+  background: var(--contact-ink);
+}
+
+.cmsContent :global(.my-16) {
+  margin-block: 0;
+}
+
+.cmsContent :global(.container) {
+  max-width: none;
+  padding-inline: 0;
+}
+
+.cmsContent :global(.prose) {
+  color: var(--contact-ink);
+  max-width: none;
+}
+
+.cmsContent :global(.prose h1),
+.cmsContent :global(.prose h2),
+.cmsContent :global(.prose h3) {
+  color: var(--contact-blue);
+  font-size: clamp(2rem, 4vw, 4.5rem);
+  letter-spacing: -0.055em;
+  line-height: 0.95;
+}
+
+.cmsContent :global(.prose a) {
+  color: var(--contact-blue);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25rem;
+}
+
+.formNote {
+  align-items: center;
+  display: flex;
+  font-family: var(--font-geist-mono);
+  font-size: 0.62rem;
+  gap: 0.45rem;
+  letter-spacing: 0.03em;
+  margin: 1.25rem 0 0;
+  opacity: 0.66;
+}
+
+.formNote svg {
+  height: 0.72rem;
+  width: 0.72rem;
+}
+
+.closing {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  min-height: 18rem;
+  padding: 4rem clamp(0rem, 2vw, 2rem);
+}
+
+.closing p {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(1.8rem, 3.5vw, 4rem);
+  font-style: italic;
+  letter-spacing: -0.045em;
+  margin: 0;
+}
+
+.closing a {
+  align-items: center;
+  background: var(--contact-lime);
+  border-radius: 999px;
+  color: var(--contact-ink);
+  display: inline-flex;
+  font-family: var(--font-geist-mono);
+  font-size: 0.7rem;
+  font-weight: 650;
+  gap: 0.75rem;
+  letter-spacing: 0.07em;
+  padding: 1rem 1.25rem;
+  text-transform: uppercase;
+  transition: transform 180ms ease;
+}
+
+.closing a:hover {
+  transform: rotate(-2deg) scale(1.04);
+}
+
+.closing svg {
+  height: 1rem;
+  width: 1rem;
+}
+
+@keyframes orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+    padding-top: 4rem;
+  }
+
+  .signal {
+    justify-self: center;
+    max-width: 22rem;
+    width: 75%;
+  }
+
+  .formSection {
+    grid-template-columns: 1fr;
+  }
+
+  .formIntro h2,
+  .process,
+  .formLead {
+    max-width: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .page {
+    margin-top: -90px;
+    padding-top: 90px;
+  }
+
+  .hero {
+    min-height: auto;
+    padding-block: 3.5rem 5rem;
+  }
+
+  .title {
+    font-size: clamp(3.8rem, 18vw, 5.8rem);
+    line-height: 0.82;
+  }
+
+  .heroFooter,
+  .closing {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .signal {
+    width: 90%;
+  }
+
+  .formSection {
+    box-shadow: none;
+    padding-bottom: 6rem;
+  }
+
+  .formCard {
+    box-shadow:
+      8px 8px 0 var(--contact-lime),
+      9px 9px 0 var(--contact-ink);
+    padding: 1.25rem;
+  }
+
+  .formCard :global(form > div) {
+    grid-template-columns: 1fr;
+  }
+
+  .formCard :global(form > div > div) {
+    grid-column: 1 / -1;
+  }
+
+  .closing {
+    gap: 2.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbitDot {
+    animation: none;
+  }
+
+  .closing a,
+  .jumpLink {
+    transition: none;
+  }
+}
