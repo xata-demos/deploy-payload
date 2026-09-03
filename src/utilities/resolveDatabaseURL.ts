@@ -35,6 +35,14 @@ export const resolveDatabaseURL = async (): Promise<string> => {
   )
   const projectID = requireEnvironmentVariable('XATA_PROJECT_ID', process.env.XATA_PROJECT_ID)
   const projectPath = `/organizations/${encodeURIComponent(organizationID)}/projects/${encodeURIComponent(projectID)}`
+  const configuredURL = requireEnvironmentVariable('DATABASE_URL', process.env.DATABASE_URL)
+  let databasePath: string
+
+  try {
+    databasePath = new URL(configuredURL).pathname
+  } catch {
+    throw new Error('Invalid DATABASE_URL for Xata preview database resolution')
+  }
 
   const request = async <ResponseBody>(path: string): Promise<ResponseBody> => {
     const response = await fetch(`https://api.xata.tech${path}`, {
@@ -68,6 +76,7 @@ export const resolveDatabaseURL = async (): Promise<string> => {
   }
 
   const databaseURL = new URL(connectionString)
+  databaseURL.pathname = databasePath
   databaseURL.searchParams.set('sslmode', 'require')
 
   return databaseURL.toString()
