@@ -14,7 +14,36 @@ if [[ "${VERCEL_ENV:-}" == "preview" ]]; then
 
   preview_branch="${VERCEL_GIT_COMMIT_REF}"
 
-  xata branch wait-ready "$preview_branch" --wake
+  # The Xata/Vercel integrations run independently, so a preview build can
+  # start a few seconds before its database branch is visible to the CLI.
+  max_branch_wait_attempts=30
+  branch_wait_retry_delay=2
+
+  for ((attempt = 1; attempt <= max_branch_wait_attempts; attempt++)); do
+    if branch_wait_output="$(
+      xata branch wait-ready "$preview_branch" --wake 2>&1
+    )"; then
+      if [[ -n "$branch_wait_output" ]]; then
+        printf '%s\n' "$branch_wait_output"
+      fi
+      break
+    fi
+
+    if [[ "$branch_wait_output" != *"Invalid branch:"* ]]; then
+      printf '%s\n' "$branch_wait_output" >&2
+      exit 1
+    fi
+
+    if ((attempt == max_branch_wait_attempts)); then
+      printf '%s\n' "$branch_wait_output" >&2
+      printf 'Timed out waiting for Xata branch %q to become available.\n' "$preview_branch" >&2
+      exit 1
+    fi
+
+    printf 'Xata branch %q is not available yet (attempt %d/%d); retrying in %ds...\n' \
+      "$preview_branch" "$attempt" "$max_branch_wait_attempts" "$branch_wait_retry_delay"
+    sleep "$branch_wait_retry_delay"
+  done
 
   preview_database_url="$(
     xata branch url "$preview_branch" --type primary
